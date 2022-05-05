@@ -1,4 +1,5 @@
 class Conta:
+    #pass        /serve para deixar a classe em branco
 
     def __init__(self, numero, titular, saldo, limite):
         print("Construindo objeto ... {}".format(self))

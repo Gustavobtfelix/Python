@@ -3,6 +3,7 @@
 Um objeto é uma instância de uma classe onde podemos definir valores para seus atributos.
 Uma boa analogia é considerar a classe como a receita para a criação de algum prato.'''
 class CONTA:
+    #pass           /Usado quando a classe é vazia
     #funcao construtora. _init_ salva a funcao na memoria para usar depois. (self) = referencia
     def __init__(self, numero, titular, saldo, limite):
         print("Construindo objeto ... {}".format(self))
@@ -22,7 +23,12 @@ class CONTA:
     def saca(self, valor):
         self.__saldo -= valor
 
-conta = CONTA(123, "Igor", 10, 100) 
+    def transfere(self, valor, destino):
+        self.saca(valor)
+        destino.deposita(valor)
+
+conta = CONTA(123, "Marco", 10, 100) 
+conta2 = CONTA(321, "Polo", 100, 500)
 
 #funcao extrato esta dentro da classe CONTA. conta.extrato usa a variavel tuple conta como referencia
 conta.extrato()
@@ -30,3 +36,5 @@ conta.extrato()
 conta.deposita(100)
 
 conta.saca(50)
+
+conta2.transfere(45, conta)
