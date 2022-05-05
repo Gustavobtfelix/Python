@@ -10,3 +10,11 @@ def saca(conta, valor):
 
 def extrato(conta):
     print("Saldo {}".format(conta["saldo"]))
+
+conta = cria_conta(10, "Joao p de s", 1000, 15000)
+
+deposita(conta, 550)
+
+saca(conta, 50)
+
+extrato(conta)
