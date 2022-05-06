@@ -13,6 +13,7 @@ class CONTA:
         self.__titular = titular
         self.__saldo = saldo
         self.__limite = limite
+
         
     def extrato(self):
         print("Saldo de {} do titular {}".format(self.__saldo, self.__titular))
@@ -27,6 +28,17 @@ class CONTA:
         self.saca(valor)
         destino.deposita(valor)
 
+    #metodo para pegar valor privado
+   # def get_limite(self):
+    @property
+    def limite(self):
+        return self.__limite
+    #metodo para alterar valor privado
+    #def set_saldo(self, saldo):
+    @limite.setter       #precisa ser declarado a property antes
+    def limite(self, limite):
+        self.__limite = limite
+
 conta = CONTA(123, "Marco", 10, 100) 
 conta2 = CONTA(321, "Polo", 100, 500)
 
@@ -38,3 +50,7 @@ conta.deposita(100)
 conta.saca(50)
 
 conta2.transfere(45, conta)
+
+conta.limite
+
+conta.limite = 200
