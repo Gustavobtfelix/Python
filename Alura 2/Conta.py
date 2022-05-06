@@ -21,12 +21,20 @@ class CONTA:
     def deposita(self, valor):
         self.__saldo += valor
 
+    def possuiSaldo(self, valorSaque):
+        valorDisponivel = self.__saldo + self.__limite
+        return valorSaque <= valorDisponivel
+
     def saca(self, valor):
-        self.__saldo -= valor
+        if(self.possuiSaldo(valor)):
+            self.__saldo -= valor
+        else: print("O valor {} passou o limite".format(valor))
 
     def transfere(self, valor, destino):
-        self.saca(valor)
-        destino.deposita(valor)
+        if(self.possuiSaldo(valor)):
+            self.saca(valor)
+            destino.deposita(valor)
+        else: print("O valor {} passou o limite".format(valor))
 
     #metodo para pegar valor privado
    # def get_limite(self):
@@ -38,6 +46,10 @@ class CONTA:
     @limite.setter       #precisa ser declarado a property antes
     def limite(self, limite):
         self.__limite = limite
+
+    @staticmethod
+    def codigos_bancos():
+        return {'BB':'001', 'Caixa':'104', 'Bradesco':'237'}
 
 conta = CONTA(123, "Marco", 10, 100) 
 conta2 = CONTA(321, "Polo", 100, 500)
@@ -54,3 +66,7 @@ conta2.transfere(45, conta)
 conta.limite
 
 conta.limite = 200
+
+conta.codigos_bancos()
+codigos = conta.codigos_bancos()
+codigos['BB']
