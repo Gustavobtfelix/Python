@@ -7,7 +7,7 @@ dados_conexao = (
 )
 
 conexao = pyodbc.connect(dados_conexao)
-print("Conexão Bem Sucedida")
+#print("Conexão Bem Sucedida")
 
 cursor = conexao.cursor()
 
