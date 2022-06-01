@@ -18,11 +18,11 @@ class Filme:
 
     @nome.setter
     def nome(self, nome):
-        self.__nome = nome
+        self.__nome = nome.title()
 
 class Serie:
     def __init__(self, nome, ano, temporadas):
-        self.nome = nome
+        self.__nome = nome
         self.ano = ano
         self.temporadas = temporadas
         self.__likes = 0
@@ -40,11 +40,12 @@ class Serie:
 
     @nome.setter
     def nome(self, nome):
-        self.__nome = nome
+        self.__nome = nome.title()
 
 avengers = Filme('vingadores', 2016, 160)
 print(f'Nome: {avengers.nome} - Ano: {avengers.ano}'
       f' - duracao: {avengers.duracao} min - Likes: {avengers.likes}')
+
 
 atlanta = Serie('atlanta', 2018, 3)
 atlanta.dar_likes()
