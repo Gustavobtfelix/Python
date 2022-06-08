@@ -82,4 +82,4 @@ for programa in minha_playlist:
     #print(f'Nome: {programa.nome} - Likes: {programa.likes}')
     print(programa)
 
-print(f'Tamanho: {len(minha_playlist.listagem)}')
+print(f'Tamanho: {len(minha_playlist)}')
