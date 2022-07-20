@@ -1,4 +1,4 @@
-import re
+import re  #Regular Expression -- RegEx
 class ExtratorURL:
     def __init__(self, url):
         self.url = self.sanitiza_url(url)
@@ -39,11 +39,25 @@ class ExtratorURL:
             valor = self.get_url_parametros()[indice_valor: indice_e_comercial]
         return valor
 
+    def __len__(self):
+        return len(self.url)
+    def __str__(self):
+        return "Essa classe possui\n URL: " + self.url + "\n Parâmetros: " + self.get_url_parametros() + "\n URL Base: " + self.get_url_base()
 
-extrator_url = ExtratorURL("hrrps://bytebank.com/cambio?moedaOrigem=real&moedaDestino=dolar&quantidade=100")
+    def __eq__(self, other):
+        return self.url == other.url
+
+url = "bytebank.com/cambio?quantidade=100&moedaOrigem=dolar&moedaDestino=real"
+
+extrator_url = ExtratorURL(url)
+print("Tamanho da URL:", len(extrator_url))
 valor_quantidade = extrator_url.get_valor_parametro("quantidade")
 print(valor_quantidade)
+print(extrator_url)
 
-
+extrator_url2 = ExtratorURL(url)
+print(extrator_url == extrator_url2) # == compara valor pelo metodo __eq__, is compara posicao em memoria dos objetos
+print(id(extrator_url)) #id mostra alocacao em memoria
+print(id(extrator_url2))
 #verifica a classe de qualquer objeto utilizando o "type(nomeDoObjeto)"
 #type(None)
