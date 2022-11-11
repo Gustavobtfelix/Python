@@ -1,6 +1,6 @@
 """Introdução a Collections"""
 
-idades = [39, 30, 27, 18]
+idades = [39, 30, 27, 18] #array
 
 for indice, valor in enumerate(idades):
     print(indice, valor)
