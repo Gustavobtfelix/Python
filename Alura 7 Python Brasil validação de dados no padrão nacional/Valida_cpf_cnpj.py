@@ -1,6 +1,7 @@
 from validate_docbr import CPF, CNPJ
 import sys
-class CPFCNPJ:
+
+class ValidaDocumento:
     def __init__(self, documento, tipoDocumento):
         self.tipoDocumento = tipoDocumento
         if (tipoDocumento == 'cpf'):
@@ -32,7 +33,7 @@ class CPFCNPJ:
             if (validadorCpf.validate(cpf)):
                 self.cpf = validadorCpf.mask(cpf)
             else:
-                raise ValueError ("cnpj invalido")
+                raise ValueError ("cpf invalido")
         except Exception as e:
             print (e)
             sys.exit(1)
@@ -67,14 +68,9 @@ class CPFCNPJ:
 
 if(__name__ == "__main__"):
     cpf = 12818792746
-    objetoCpf = CPFCNPJ(cpf, 'cpf')
+    objetoCpf = ValidaDocumento(cpf, 'cpf')
     print(objetoCpf)
 
-    # exemplo_cnpj = "3537983800011"
-    # cnpj = CNPJ()
-    # print(cnpj.validate(exemplo_cnpj))
-
-
     exemplo_cnpj = 35379838000112
-    cnpj = CPFCNPJ(exemplo_cnpj, 'cnpj')
+    cnpj = ValidaDocumento(exemplo_cnpj, 'cnpj')
     print(cnpj)
