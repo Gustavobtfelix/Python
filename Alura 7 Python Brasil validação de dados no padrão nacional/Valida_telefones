@@ -1,0 +1,26 @@
+import re
+import sys
+
+class TelefonesBr:
+    def __init__(self, telefone):
+        self.validaTelefone(telefone)
+
+    def validaTelefone(self, telefone):
+        try:
+            padrao = "[(]?[0-9]{2,3}[)]?[(]?[0-9]{2}[)]?[0-9]{4,5}[-]?[0-9]{4}"
+            resposta = re.findall(padrao, telefone)
+            print(resposta)
+            if resposta:
+                self.numero = resposta
+            else:
+                raise ValueError("Numero incorreto")
+        except Exception as e:
+            print (e)
+            sys.exit(1)
+
+
+
+if(__name__ == "__main__"):
+    telefone = "552197437-7342"
+
+    telefone_objeto = TelefonesBr(telefone)
