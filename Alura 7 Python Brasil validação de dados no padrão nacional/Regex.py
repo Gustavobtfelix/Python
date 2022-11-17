@@ -6,7 +6,8 @@ import re
 # print (resposta.group())
 
 # #padrao email br
-# padrao = "\w{5,50}@[a-z]{3,10}.com(.br)?" #valor entre 5 e 50 digitos, @, letra entre 3 e 10, .com e .br opcional
+#americano = "\w{2,50}@\w{2,15}\.[a-z]{2,3}\.?([a-z]{2,3})?"
+# padrao = "\w{2,50}@[a-z]{3,10}.com(.br)?" #valor entre 5 e 50 digitos, @, letra entre 3 e 10, .com e .br opcional
 # texto = "aaabbbcc rodrigo123@gmail.com.br uyfbsufbsfbbff"
 # resposta = re.search(padrao, texto)
 # print (resposta.group())
