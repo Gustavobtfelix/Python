@@ -1,6 +1,25 @@
 from validate_docbr import CPF, CNPJ
 import sys
 
+class Documento:
+    @staticmethod
+    def criar_novo(documento):
+        try:
+            doc = str(documento)
+            doc = doc.replace(".", "")
+            doc = doc.replace("-", "")
+            doc = doc.replace("/", "")
+            doc = doc.strip()
+            if len(doc) == 11:
+                return ValidaDocumento(doc, 'cpf')
+            elif len(doc) == 14:
+                return ValidaDocumento(doc, 'cnpj')
+            else:
+                raise ValueError ("Quantidade de caracteres invalida! use 'cpf' or 'cnpj'")
+        except Exception as e:
+            print (e)
+            sys.exit(1)
+
 class ValidaDocumento:
     def __init__(self, documento, tipoDocumento):
         self.tipoDocumento = tipoDocumento
@@ -8,10 +27,6 @@ class ValidaDocumento:
             self.validaCPF(documento)
         elif (tipoDocumento == 'cnpj'):
             self.validaCNPJ(documento)
-        else:
-             raise ValueError ("Tipo não existe! use 'cpf' or 'cnpj'")
-
-
 
     def __str__(self): #é chamado quando alguem da print
         if self.tipoDocumento == 'cpf':
@@ -19,16 +34,8 @@ class ValidaDocumento:
         if self.tipoDocumento == 'cnpj':
             return self.cnpj
 
-    def validaCPF(self, doc):
+    def validaCPF(self, cpf):
         try:
-            cpf = str(doc)
-            cpf = cpf.replace(".", "")
-            cpf = cpf.replace("-", "")
-            cpf = cpf.strip()
-            cpf = cpf.zfill(11)
-            if(len(cpf) != 11):
-                raise ValueError ("Quantidade de digitos inválida!!")
-                
             validadorCpf = CPF()
             if (validadorCpf.validate(cpf)):
                 self.cpf = validadorCpf.mask(cpf)
@@ -38,17 +45,8 @@ class ValidaDocumento:
             print (e)
             sys.exit(1)
 
-    def validaCNPJ(self, doc):
+    def validaCNPJ(self, cnpj):
         try:
-            cnpj = str(doc)
-            cnpj = cnpj.replace(".", "")
-            cnpj = cnpj.replace("/", "")
-            cnpj = cnpj.replace("-", "")
-            cnpj = cnpj.strip()
-            cnpj = cnpj.zfill(14)
-            if len(cnpj)!= 14:
-                raise ValueError ("Quantidade de digitos inválida!!")
-
             validadorCNPJ = CNPJ()           
             if(validadorCNPJ.validate(cnpj)):
                 self.cnpj = validadorCNPJ.mask(cnpj)
@@ -60,17 +58,11 @@ class ValidaDocumento:
 
 
 
-
-
-    
-
-
-
 if(__name__ == "__main__"):
-    cpf = 12818792746
-    objetoCpf = ValidaDocumento(cpf, 'cpf')
-    print(objetoCpf)
+    exemplocpf = 12818792746
+    cpf = Documento.criar_novo(exemplocpf)
+    print(cpf)
 
     exemplo_cnpj = 35379838000112
-    cnpj = ValidaDocumento(exemplo_cnpj, 'cnpj')
+    cnpj = Documento.criar_novo(exemplo_cnpj)
     print(cnpj)
