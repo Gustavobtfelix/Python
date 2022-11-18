@@ -1,4 +1,5 @@
 import sys
+import requests
 
 class BuscaEndereco:
 
@@ -20,8 +21,20 @@ class BuscaEndereco:
     def formataCep(self):
         print("{}-{}".format(self.cep[:4], self.cep[4:]))
 
+    def acessaApiCep(self):
+        
+        url = "https://viacep.com.br/ws/{}/json/".format(self.cep)
+        value = requests.get(url, verify=False)
+        print(value.text)
+        dados = value.json()
+        return (
+            dados['bairro'],
+            dados['localidade'],
+            dados['uf']
+        )
 
 
 if(__name__ == "__main__"):
-    novoCep = BuscaEndereco('12345678')
-    novoCep.formataCep()
+    novoCep = BuscaEndereco('01001000')
+    bairro, cidade, uf = novoCep.acessaApiCep()
+    print(bairro, cidade, uf)
