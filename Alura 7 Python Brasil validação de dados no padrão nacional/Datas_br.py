@@ -27,9 +27,14 @@ class DatasBr:
         dataFormatada = self.momentoCadastro.strftime("%d/%m/%Y %H:%M")
         print (dataFormatada)
 
+    def tempoCadastro(self):
+        tempo_cadastro = (datetime.today() + timedelta(days=30)) - self.momentoCadastro
+        print(tempo_cadastro)
+
 
 if(__name__ == "__main__"):
     data = DatasBr()
     data.mesCadastro()
     data.diaSemana()
     data.formataData()
+    data.tempoCadastro()
