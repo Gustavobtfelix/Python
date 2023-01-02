@@ -1,8 +1,8 @@
 import hashlib
 
-def encriptografar(CPF,Senha):
-    sha_signature = hashlib.sha256(CPF.encode()).hexdigest()
-    teste=(sha_signature+Senha)
+def encriptografar(Valor1,Valor2):
+    sha_signature = hashlib.sha256(Valor1.encode()).hexdigest()
+    teste=(sha_signature+Valor2)
     sha_signature = hashlib.sha256(teste.encode()).hexdigest()
     print(sha_signature)
 
