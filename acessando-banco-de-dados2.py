@@ -31,8 +31,7 @@ def finalizaConexao():
         
 def buscaDados():
 
-    cursor = conecta.cursor()
-    #dt_server(datetime), ticket(nvarchar(50)), nome(nvarchar(250)), cpf(nvarchar(14)), empresa(nvarchar(50)), local_trabalho(nvarchar(250)), dt_welcome(date) 
+    cursor = conecta.cursor() 
     try:
         comando = f"""
         select *
@@ -49,19 +48,15 @@ def buscaDados():
         sys.exit(1)
 
 
-comando = f""""""
 
-cursor.execute(comando)
-cursor.commit()
-print("Valores inseridos")
-
- 
 
 if(__name__ == "__main__"):
     start_time = time.time()
     conexao()
     dados = buscaDados()
     print (dados.__len__())
+    for row in dados:
+        print(row[0])
 
     print("--- %s seconds ---" % (time.time() - start_time))
 
