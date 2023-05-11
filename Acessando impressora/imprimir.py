@@ -1,11 +1,12 @@
-import win32print
+import win32print #pip install pywin32
 import win32api
 import os, sys
 import time
 
 # escolhe a impressora
 listaimpressoras = win32print.EnumPrinters(2)
-impressora = listaimpressoras[10]
+impressora = listaimpressoras
+print(impressora)
 
 # win32print.SetDefaultPrinter(impressora[2])
 
@@ -14,9 +15,11 @@ impressora = listaimpressoras[10]
 caminho = r"C:\Users\gustavo.felix\Downloads\Imprimir"
 lista_arquivos = os.listdir(caminho)
 
+
 # https://docs.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-shellexecutea
 for arquivo in lista_arquivos:
-   win32api.ShellExecute(0, "print", arquivo, None, caminho, 0)
+   if arquivo.endswith(".png"):
+      win32api.ShellExecute(0, "print", arquivo, None, caminho, 0)
 
 
 # for file in lista_arquivos:

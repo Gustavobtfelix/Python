@@ -1,6 +1,6 @@
-import win32print
+import win32print #pip install pywin32
 import win32ui
-from PIL import Image, ImageWin
+from PIL import Image, ImageWin #pip install pillow
 #http://timgolden.me.uk/python/win32_how_do_i/print.html
 
 #
@@ -14,8 +14,8 @@ VERTRES = 10
 #
 # LOGPIXELS = dots per inch
 #
-LOGPIXELSX = 88
-LOGPIXELSY = 90
+LOGPIXELSX = 298
+LOGPIXELSY = 300
 #
 # PHYSICALWIDTH/HEIGHT = total area
 #
@@ -27,8 +27,8 @@ PHYSICALHEIGHT = 111
 PHYSICALOFFSETX = 112
 PHYSICALOFFSETY = 113
 
-printer_name = 'ZC300-RJ-01'
-file_name = "cachorrinho.png"
+printer_name = 'Zebra ZC Network Card Printer'
+file_name = "teste de verdes.png"
 
 #
 # You can only write a Device-independent bitmap
@@ -41,7 +41,7 @@ file_name = "cachorrinho.png"
 #
 hDC = win32ui.CreateDC ()
 hDC.CreatePrinterDC (printer_name)
-printable_area = hDC.GetDeviceCaps (HORZRES), hDC.GetDeviceCaps (VERTRES)
+printable_area = hDC.GetDeviceCaps(HORZRES), hDC.GetDeviceCaps (VERTRES)
 printer_size = hDC.GetDeviceCaps (PHYSICALWIDTH), hDC.GetDeviceCaps (PHYSICALHEIGHT)
 printer_margins = hDC.GetDeviceCaps (PHYSICALOFFSETX), hDC.GetDeviceCaps (PHYSICALOFFSETY)
 
@@ -52,11 +52,13 @@ printer_margins = hDC.GetDeviceCaps (PHYSICALOFFSETX), hDC.GetDeviceCaps (PHYSIC
 #  the page without distorting.
 #
 bmp = Image.open (file_name)
-if bmp.size[0] > bmp.size[1]:
-  bmp = bmp.rotate (90)
+print(bmp)
+# Rotate the image counterclockwise by 90 degrees if the width is less than the height.
+if bmp.size[0] < bmp.size[1]:
+    bmp = bmp.rotate(90, expand=True)
 
 ratios = [1.0 * printable_area[0] / bmp.size[0], 1.0 * printable_area[1] / bmp.size[1]]
-scale = min (ratios)
+scale = min(ratios)
 
 #
 # Start the print job, and draw the bitmap to
