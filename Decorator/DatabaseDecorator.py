@@ -1,6 +1,7 @@
 import pyodbc
 
 
+
 def conexao(dados_conexao):
     try:
         global conecta
@@ -10,7 +11,6 @@ def conexao(dados_conexao):
     except Exception as e:
         print('Não foi possível conectar no banco de dados. Abortando.')
         print(e)
-        responseStatus = 599
         return False
 
 
@@ -30,15 +30,53 @@ def queryUnica(query):
         raise
 
 
-def database_connection_decorator(dados_conexao):
-    def decorator(func):
-        def wrapper(*args, **kwargs):
-            try:
-                conexao(dados_conexao)
-                result = func(*args, **kwargs)
-            finally:
+def databaseQueryMultiplaDecorator(function):
+    def wrapper(*args):
+        argumentos = args[0]
+        try:
+            if conexao(argumentos['dados']):
+                result = function(argumentos['query'])
                 finalizaConexao()
+                return result
+            else:
+                pass
+        except Exception as e:
+            finalizaConexao()
+    return wrapper
 
-            return result
-        return wrapper
-    return decorator
+@databaseQueryMultiplaDecorator
+def buscaDados(query):
+    try:
+        result_list = []
+        cursor = conecta.cursor()
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        # Assuming 'cursor.description' contains column names
+        column_names = [desc[0] for desc in cursor.description]
+
+        for row in rows:
+            row_dict = {col_name: value for col_name, value in zip(column_names, row)}
+            result_list.append(row_dict)
+
+        return result_list     
+    except Exception as e:
+        print('erro ao executar query multipla')
+        print(e)
+        raise
+
+
+if __name__ == '__main__':
+    
+    conexao_dados  = (
+        "Driver={ODBC Driver 17 for SQL Server};"
+        "Server=00.000.000.00;"
+        "Database=your_database;"
+        "UID=user;" # usuario
+        "PWD=password" # password
+    )
+    
+    query = "SELECT * FROM your_table"
+    dicionario = {'dados': conexao_dados, 'query': query}
+    resultado = buscaDados(dicionario)
+    
+    print(resultado[0]['nome_coluna'])
