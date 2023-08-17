@@ -17,24 +17,7 @@ def finalizaConexao():
     print('Conexão finalizada')
 
 
-def queryUnica(query, dados):
-    try:
-        cursor = conecta.cursor()
-        cursor.execute(query)
-        row = cursor.fetchone()
-        if row: 
-            for idx, column in enumerate(cursor.description):
-                column_name = column[0]
-                dados[column_name] = row[idx]
-            return dados
-        return row
-    except Exception as e:
-        print('erro ao executar query unica')
-        print(e)
-        raise
-
-
-def databaseQueryMultiplaDecorator(function):
+def acessaDatabase(function):
     def wrapper(*args):
         argumentos = args[0]
         try:
@@ -48,8 +31,8 @@ def databaseQueryMultiplaDecorator(function):
             finalizaConexao()
     return wrapper
 
-@databaseQueryMultiplaDecorator
-def buscaDados(query):
+@acessaDatabase
+def buscaDadosMultiplos(query):
     try:
         result_list = []
         cursor = conecta.cursor()
@@ -68,7 +51,24 @@ def buscaDados(query):
         print(e)
         raise
 
-
+@acessaDatabase
+def buscaDadoUnico(query):
+    try:
+        result_list = {}
+        cursor = conecta.cursor()
+        cursor.execute(query)
+        row = cursor.fetchone()
+        if row: 
+            for idx, column in enumerate(cursor.description):
+                column_name = column[0]
+                result_list[column_name] = row[idx]
+            return result_list
+        return row
+    except Exception as e:
+        print('erro ao executar query unica')
+        print(e)
+        raise
+    
 if __name__ == '__main__':
     
     conexao_dados  = (
@@ -81,6 +81,7 @@ if __name__ == '__main__':
     
     query = "SELECT * FROM your_table"
     dicionario = {'dados': conexao_dados, 'query': query}
-    resultado = buscaDados(dicionario)
+    resultado = buscaDadosMultiplos(dicionario)
     
     print(resultado[0]['nome_coluna'])
+
