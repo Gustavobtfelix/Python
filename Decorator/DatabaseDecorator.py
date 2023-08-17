@@ -1,7 +1,5 @@
 import pyodbc
 
-
-
 def conexao(dados_conexao):
     try:
         global conecta
@@ -19,14 +17,20 @@ def finalizaConexao():
     print('Conexão finalizada')
 
 
-def queryUnica(query):
+def queryUnica(query, dados):
     try:
         cursor = conecta.cursor()
         cursor.execute(query)
         row = cursor.fetchone()
+        if row: 
+            for idx, column in enumerate(cursor.description):
+                column_name = column[0]
+                dados[column_name] = row[idx]
+            return dados
         return row
     except Exception as e:
-        responseStatus = 409
+        print('erro ao executar query unica')
+        print(e)
         raise
 
 
