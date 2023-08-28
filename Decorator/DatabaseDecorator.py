@@ -25,14 +25,15 @@ def acessaDatabase(function):
             if conexao(argumentos['dados']):
                 result = function(argumentos['query'], argumentos['parameters'])
                 finalizaConexao()
-                if result is None:
-                    return None, 404
-                return result, 200
+                # result vai ser o resultado da query ou None se não encontrar
+                return result
             else:
-                return None, 599
+                #falha ao conectar com banco
+                return None
         except Exception as e:
+            #para erros causados por query mal formada
             finalizaConexao()
-            return None, 406
+            return None
     return wrapper
 
 #Faz a busca de multiplos dados no banco de dados
@@ -43,12 +44,15 @@ def buscaDadosMultiplos(query, parameters):
         cursor = conecta.cursor()
         cursor.execute(query, parameters)
         rows = cursor.fetchall()
-        # Assuming 'cursor.description' contains column names
-        column_names = [desc[0] for desc in cursor.description]
-
-        for row in rows:
-            row_dict = {col_name: value for col_name, value in zip(column_names, row)}
-            result_list.append(row_dict)
+        if rows is None:
+            print("nenhum dado encontrado")
+        else:
+            # Assuming 'cursor.description' contains column names
+            column_names = [desc[0] for desc in cursor.description]
+            
+            for row in rows:
+                row_dict = {col_name: value for col_name, value in zip(column_names, row)}
+                result_list.append(row_dict)
 
         return result_list     
     except Exception as e:
@@ -64,7 +68,9 @@ def buscaDadoUnico(query, parameters):
         cursor = conecta.cursor()
         cursor.execute(query, parameters)
         row = cursor.fetchone()
-        if row: 
+        if row is None:
+            print("nenhum dado encontrado")
+        else: 
             for idx, column in enumerate(cursor.description):
                 column_name = column[0]
                 result_list[column_name] = row[idx]
@@ -91,18 +97,20 @@ def alteraInformacoes(query, parameters):
 if __name__ == '__main__':
     
     conexao_dados  = (
-        "Driver={ODBC Driver 17 for SQL Server};"
-        "Server=00.00.000.000;"
-        "Database=YourDatabase;"
-        "UID=user;" # usuario
-        "PWD=printer" # password
+    "Driver={SQL Server};"
+    "Server=00.00.000.000;"
+    "Database=YourDatabase;"
+    "Username = user;"
+    "Password = yourPassword"
     )
     
-    query = "SELECT top(1) * FROM table where cpf = ?"
-    parameters = ["106.597.386-19"]
+    query = "SELECT top(1) * FROM your_database where cpf = ?"
+    parameters = ["000.000.000-00"]
     dicionario = {'dados': conexao_dados, 'query': query, 'parameters':parameters}
-    resultado, status = buscaDadoUnico(dicionario)
-    # resultado, status = buscaDadosMultiplos(dicionario)
-    
-    print(resultado, status)
+    resultado = buscaDadoUnico(dicionario)
+    # resultado= buscaDadosMultiplos(dicionario)
+    if(resultado is None):
+        print('erro')
+    else:
+        print(resultado)
     
