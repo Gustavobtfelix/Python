@@ -66,7 +66,10 @@ def buscaDadoUnico(query, parameters):
     try:
         result_list = {}
         cursor = conecta.cursor()
-        cursor.execute(query, parameters)
+        if(parameters is None):
+            cursor.execute(query)
+        else:
+            cursor.execute(query, parameters)
         row = cursor.fetchone()
         if row is None:
             print("nenhum dado encontrado")
@@ -86,7 +89,10 @@ def buscaDadoUnico(query, parameters):
 def alteraInformacoes(query, parameters):
     try:
         cursor = conecta.cursor()
-        cursor.execute(query, parameters)
+        if(parameters is None):
+            cursor.execute(query)
+        else:
+            cursor.execute(query, parameters)
         conecta.commit()
         return True
     except Exception as e:
