@@ -120,3 +120,4 @@ if __name__ == '__main__':
     else:
         print(resultado)
     
+    # query = "SELECT * FROM your_database WHERE cpf IN ({})".format(','.join(['?'] * len(parameters)))
