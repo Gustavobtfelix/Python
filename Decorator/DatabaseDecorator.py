@@ -1,4 +1,5 @@
 import pyodbc
+import json
 #Cria conexao com o banco de dados
 def conexao(dados_conexao):
     try:
@@ -20,7 +21,6 @@ def finalizaConexao():
 def acessaDatabase(function):
     def wrapper(*args):
         argumentos = args[0]
-        print(argumentos)
         try:
             if conexao(argumentos['dados']):
                 result = function(argumentos['query'], argumentos['parameters'])
@@ -42,7 +42,10 @@ def buscaDadosMultiplos(query, parameters):
     try:
         result_list = []
         cursor = conecta.cursor()
-        cursor.execute(query, parameters)
+        if(parameters is None):
+            cursor.execute(query)
+        else:
+            cursor.execute(query, parameters)
         rows = cursor.fetchall()
         if rows is None:
             print("nenhum dado encontrado")
@@ -119,5 +122,5 @@ if __name__ == '__main__':
         print('erro')
     else:
         print(resultado)
-    
-    # query = "SELECT * FROM your_database WHERE cpf IN ({})".format(','.join(['?'] * len(parameters)))
+        
+    query = "SELECT * FROM your_database WHERE cpf IN ({})".format(','.join(['?'] * len(parameters)))
