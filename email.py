@@ -5,14 +5,14 @@ import Info
 import Index
 #por questões de segurança e organização crie suas informações e o Index em arquivos separados
 def enviaEmail():
-    email = Info.Email
-    password = Info.Password
-    send_to_email = Info.sendTo
-    subject = Info.subject
-    message = Index.mensagemPassback
+    email = Info.Email #Usuario
+    password = Info.Password #senha do usuario
+    send_to_email = Info.sendTo # ['email1', 'email2', 'email3']
+    subject = Info.subject #"titulo do e-mail"
+    message = Index.mensagemPassback #html
     message = message.replace('NOME', Info.NOME)
     message = message.replace('QUANTIDADE', Info.QUANTIDADE)
-    cc = Info.ccEmail
+    cc = Info.ccEmail #['email1', 'email2', 'email3']
     
     #criando instancia
     msg = MIMEMultipart()
