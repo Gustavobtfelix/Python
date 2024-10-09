@@ -5,3 +5,5 @@
 *.jpg
 *.OTF
 *.ttf
+
+/.venv
